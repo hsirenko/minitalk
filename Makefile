@@ -4,50 +4,68 @@
 NAME = minitalk
 CLIENT = client
 SERVER = server
-HEADER = minitalk.h
+PRINTF = libftprintf.a
+#HEADER = minitalk.h
 
 	# Mandatory variables #
 
-SRC = client.c server.c \
+SRCC_FILES = client.c
+SRCS_FILES = server.c
+
+SRC_DIR = src/
+SRCC = $(addprefix $(SRC_DIR), $(SRCC_FILES))
+SRCS = $(addprefix $(SRC_DIR), $(SRCS_FILES))
 
 	# Compiling variables #
 
-OBJ = ${SRC: .c = .o}
+OBJC = ${SRCC:.c=.o}
+OBJS = ${SRCS:.c=.o}
 CC = cc
-CCFLAGS = -Wall -Wextra -Werror
-RM = rm -f
+CFLAGS = -Wall -Wextra -Werror
+INCLUDE = -I include
+RM = rm -rf
+
 
 	# ft_printf variables #
 
-PRINTF_DIR = ./ft_printf
-PRINTF = libftprintf.a
+#PRINTF_DIR = ft_printf
+#PRINTF = libftprintf.a
 
 
-all: $(SERVER) $(CLIENT)
+all:	$(CLIENT) $(SERVER)
 
-$(SERVER) : $(OBJ)
-	@make -C ft_printf
-	$(CC) $(CFLAGS) $(OBJ) $(HEADER) ft_printf/$(PRINTF) -o ($SERVER)
+#$(NAME): all
 
-$(CLIENT) : $(OBJ)
-	@make -C ft_printf
-	$(CC) $(CFLAGS) $(OBJ) $(HEADER) ft_printf/$(PRINTF) -o ($CLIENT)
+$(CLIENT)	:	$(OBJC)
+					@make -C ft_printf
+					$(CC) $(CFLAGS) $(OBJC) $(INCLUDE) ft_printf/$(PRINTF) -o $(CLIENT)
+
+$(SERVER)	:	$(OBJS)
+					@make -C ft_printf
+					$(CC) $(CFLAGS) $(OBJS) $(INCLUDE) ft_printf/$(PRINTF) -o $(SERVER)
+
+ #%.o: %.c
+	#$(CC) $(CCFLAGS) $(INCLUDE) -c $< -o $@
 
 clean:
-			@make clean -C ft_printf
-			${RM} $(OBJ)
+					@make clean -C ft_printf
+					${RM} $(OBJC)
+					${RM} $(OBJS)
 
 
-fclean: clean
+fclean:	clean
 
-			@make clean -C ft_printf
-			${RM} $(CLIENT)
-			${RM} $(SERVER)
-			${RM} $(PRINTF)
+					@make fclean -C ft_printf
+					${RM} $(CLIENT)
+					${RM} $(SERVER)
+					${RM} $(PRINTF)
+			#${RM} $(CLIENT)
+			#${RM} $(SERVER)
 
-re: fclean all
 
-.PHONY: all clean fclean re
+re :	fclean all
+
+.PHONY:		all clean fclean re
 
 
  
