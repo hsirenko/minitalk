@@ -43,6 +43,7 @@ void send_signals(char *msg, int pid)
     int bitshift;
 
     i = 0;
+
     bitshift = -1;
     while (msg[i] != '\0')
     {
@@ -62,6 +63,11 @@ void send_signals(char *msg, int pid)
         }
         i++;
     }
+    if (bitshift == 8)
+    {
+        ft_printf("Bonus Client: message received!\n");
+        exit(EXIT_SUCCESS);
+    }
 }
 
 int main(int argc, char **argv)
@@ -70,16 +76,20 @@ int main(int argc, char **argv)
     int i;
 
     i = 0;
-    if (argc != 3)
+
+    if (argc == 3)
+    {
+        pid = ft_atoi(argv[1]);
+        while (argv[2][i] != '\0')
+        {
+            send_signals(&argv[2][i], pid);
+            i++;
+        }
+    }
+    else
     {
         ft_printf("Error: Too few argc\n");
         exit(EXIT_FAILURE);
-    }
-    pid = ft_atoi(argv[1]);
-    while (argv[2][i] != '\0')
-    {
-        send_signals(&argv[2][i], pid);
-        i++;
     }
     sleep(1);
     return (0);
