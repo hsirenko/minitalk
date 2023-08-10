@@ -48,9 +48,16 @@ void    sighandler_usr(int signum)
     }
 }
 
-int main(void)
+int main(int argc, char **argv)
 {
     int pid;
+    (void) argv;
+
+    if (argc != 1)
+    {
+        ft_printf("Error\n");
+        exit (EXIT_FAILURE);
+    }
 
     pid = getpid();
     ft_printf("PID: %d\n", pid);

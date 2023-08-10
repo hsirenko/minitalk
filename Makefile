@@ -4,6 +4,8 @@
 NAME = minitalk
 CLIENT = client
 SERVER = server
+BONUS_CLIENT = client_bonus
+BONUS_SERVER = server_bonus
 PRINTF = libftprintf.a
 #HEADER = minitalk.h
 
@@ -11,15 +13,21 @@ PRINTF = libftprintf.a
 
 SRCC_FILES = client.c
 SRCS_FILES = server.c
+SRCC_BONUS_FILES = client_bonus.c
+SRCS_BONUS_FILES = server_bonus.c
 
 SRC_DIR = src/
 SRCC = $(addprefix $(SRC_DIR), $(SRCC_FILES))
 SRCS = $(addprefix $(SRC_DIR), $(SRCS_FILES))
+SRCC_BONUS = $(addprefix $(SRC_DIR), $(SRCC_BONUS_FILES))
+SRCS_BONUS = $(addprefix $(SRC_DIR), $(SRCS_BONUS_FILES))
 
 	# Compiling variables #
 
 OBJC = ${SRCC:.c=.o}
 OBJS = ${SRCS:.c=.o}
+OBJBC = ${SRCC_BONUS:.c=.o}
+OBJBS = ${SRCS_BONUS:.c=.o}
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 INCLUDE = -I include
@@ -47,10 +55,22 @@ $(SERVER)	:	$(OBJS)
  #%.o: %.c
 	#$(CC) $(CCFLAGS) $(INCLUDE) -c $< -o $@
 
+bonus :	$(BONUS_CLIENT) $(BONUS_SERVER)
+
+$(BONUS_CLIENT) : $(OBJBC)
+					@make -C ft_printf
+					$(CC) $(CFLAGS) $(OBJBC) $(INCLUDE) ft_printf/$(PRINTF) -o $(BONUS_CLIENT)
+
+$(BONUS_SERVER) : $(OBJBS)
+					@make -C ft_printf
+					$(CC) $(CFLAGS) $(OBJBS) $(INCLUDE) ft_printf/$(PRINTF) -o $(BONUS_SERVER)
+
 clean:
 					@make clean -C ft_printf
 					${RM} $(OBJC)
 					${RM} $(OBJS)
+					${RM} $(OBJBC)
+					${RM} $(OBJBS)
 
 
 fclean:	clean
@@ -58,6 +78,8 @@ fclean:	clean
 					@make fclean -C ft_printf
 					${RM} $(CLIENT)
 					${RM} $(SERVER)
+					${RM} $(BONUS_SERVER)
+					${RM} $(BONUS_CLIENT)
 					${RM} $(PRINTF)
 			#${RM} $(CLIENT)
 			#${RM} $(SERVER)
