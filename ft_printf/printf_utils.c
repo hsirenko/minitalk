@@ -96,23 +96,3 @@ int	ft_unsigned_int(unsigned int nb)
 	}
 	return (a);
 }
-
-/*int main(void)
-{
-	//ft_putnbr(235);
-	
-
-	//int a;
-
-	//a = ft_putnbr(456);
-
-	int	b = 744445;
-	int i;
-
-	i = 0;
-	i = i + ft_unsigned_int(b);
-	printf("\n");
-
-	printf("%i\n", i);
-	return (b);
-}*/

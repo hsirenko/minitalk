@@ -19,9 +19,9 @@
 # include <sys/signal.h>
 # include "../ft_printf/ft_printf.h"
 
-unsigned char   reverse_bits(unsigned char octet);
-void            sighandler_usr(int signum, siginfo_t *info, void *context);
-void            send_signals(char *msg, int pid);
-int	            ft_atoi(const char *str);
+unsigned char	reverse_bits(unsigned char octet);
+void			sighandler_usr(int signum, siginfo_t *info, void *context);
+void			send_signals(char *msg, int pid);
+int				ft_atoi(const char *str);
 
 #endif
